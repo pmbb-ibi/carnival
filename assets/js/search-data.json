@@ -1,0 +1,152 @@
+{"0": {
+    "doc": "About",
+    "title": "Carnival",
+    "content": "It’s a party of Information! . Github . ",
+    "url": "/about/#carnival",
+    "relUrl": "/about/#carnival"
+  },"1": {
+    "doc": "About",
+    "title": "About",
+    "content": " ",
+    "url": "/about/",
+    "relUrl": "/about/"
+  },"2": {
+    "doc": "Developer Setup",
+    "title": "Developer Setup",
+    "content": "This documentation is applicable for developing the core Carnival framework, not developing an application that uses Carnival. Carnival is a Groovy multi-project that uses Gradle as the build engine. The main project is in the app directory. Folders within app contain the sub-projects (eg. app/carnival-core). Every sub-project has a build.gradle configuration file that defines its dependencies and the gradle tasks that it can execute. The build.gradle file in the app directory defines project-wide configuration. Gradle task commands executed from the root project filter down to the sub-projects. Gradle commands referenced in this documentation are assumed to be called from the root project directory carnival/app unless otherwise noted. This project also includes a Docker image configuration that can be built to run the Carnival test suite. ",
+    "url": "/docs/developer-setup.html",
+    "relUrl": "/docs/developer-setup.html"
+  },"3": {
+    "doc": "Developer Setup",
+    "title": "Installation",
+    "content": "Java JDK . If you do not already have one, install the Java JDK. We recommend Amazon Corretto, Java 8 or above. Github . | If you do not already have one, create a free account on Github. | Install Github Desktop. | Clone the Carnival repository from Github. | . Carnival Home . Set up a Carnival home directory, which will be used to contain data files and override the default Carnival configuration. | Create an empty directory named carnival_home. | Set an environment variable CARNIVAL_HOME to the path/to/carnival_home. | Create an empty config directory in the the carnival home directory. | Copy application.yml-template and logback.yml-template from carnival/config to carnival_home/config. | Remove the -template file name suffix from each file. | . Note - In the config files windows paths should be specified using double forward-slashes (i.e. C://Users//myuser//somedirectory). Configuration Files . Name | Description — | — application.yaml | Contains data source information (i.e. credentals to relational dbs, RDF dbs, REDCap, etc.), the default vine cache-mode, local directory configuration and the gremlin configuration. logback.xml | Can be modified to change the log levels. Neo4j APOC (optional) . Awesome Procedures on Cypher (APOC) is a library of Neo4j procedures. While Carnival does not depend on any of these procedures, it may be useful to install the library. | Download the most recent 3.5+ release from the Neo4j Github. | Add the path to that directory in gremlin section of the application.yaml config file in the entry gremlin:neo4j:conf:dbms:directories:plugins: . | . # gremlin gremlin: neo4j: conf: dbms: directories: plugins: /Users/myuser/Documents/Neo4j/default.graphdb/plugins security: auth_enabled: \"false\" procedures: unrestricted: apoc.* whitelist: apoc.* . Installation Test . | Open a Command Prompt. | cd to the carnival repository directory. | cd app | gradlew clean | gradlew compileGroovy | . ",
+    "url": "/docs/developer-setup.html#installation",
+    "relUrl": "/docs/developer-setup.html#installation"
+  },"4": {
+    "doc": "Developer Setup",
+    "title": "Compiling",
+    "content": "Carnival can be built by running gradle compileGroovy . The build can be cleaned by running gradle clean . To run sub-project tasks, use the gradle colon syntax: gradle :carnival- util:compileGroovy . ",
+    "url": "/docs/developer-setup.html#compiling",
+    "relUrl": "/docs/developer-setup.html#compiling"
+  },"5": {
+    "doc": "Developer Setup",
+    "title": "Testing",
+    "content": "Gradle is used to execute the test suite. Running tests produces html test result files in the sub-project directories carnvial\\app\\carnival-\\*\\build\\reports\\tests\\test\\index.html . Aggregating Test Results . Running the command gradle testReport will run all tests and generate aggregated results in carnival\\app\\build\\reports\\allTests . Common Test Commands . To run tests for all gradle sub-projects: gradlew test To run tests for all gradle sub-projects and aggrigate the results: gradlew testReport To run tests in a specific gradle sub-project: gradlew :carnival-util:test To run a specific test suite, in this example the tests located in carnival\\app\\carnival-graph/src/test/groovy/carnival/graph/VertexDefTraitSpec.groovy : gradle :carnival-graph:test --tests \"carnival.graph.VertexDefTraitSpec\" . HTTP Tests . Some of the tests require external HTTP resources. To run these tests: gradlew -Dtest-http=true :carnival-core:test . Running Tests using Docker . The test suite can be run in the context of a docker image. If running tests in this way gradle does not need to be installed, and any configuration in the users CARNIVAL_HOME directory will be ignored. ",
+    "url": "/docs/developer-setup.html#testing",
+    "relUrl": "/docs/developer-setup.html#testing"
+  },"6": {
+    "doc": "Developer Setup",
+    "title": "Docker",
+    "content": "Most recent stable release, minimum version is 17.06.0 Official Docker Website Getting Started Official Docker Installation for Windows Docker-Compose (Version 1.22.0 or greater, Linux only) - Separate installation is only needed for linux, docker-compose is bundled with windows and mac docker installations Linux Docker-Compose Installation . Running Tests in the Docker Environment . First build the docker image using the command: docker-compose -f .\\docker-compose-test.yml build Once built, the tests can be run using the command: docker-compose -f .\\docker-compose-test.yml up --force-recreate This has the same effect as running gradle testReports, and the aggregated test results will be in the folder carnival\\app\\build\\reports\\allTests . ",
+    "url": "/docs/developer-setup.html#docker",
+    "relUrl": "/docs/developer-setup.html#docker"
+  },"7": {
+    "doc": "Developer Setup",
+    "title": "Publishing Libraries to Local Maven Repository",
+    "content": "The Groovy sub-project modules can be published to local maven repositories by running commands like the following: . gradlew :carnival-util:publishToMavenLocal gradlew :carnival-core:publishToMavenLocal . To publish all modules: . gradlew publishAll . ",
+    "url": "/docs/developer-setup.html#publishing-libraries-to-local-maven-repository",
+    "relUrl": "/docs/developer-setup.html#publishing-libraries-to-local-maven-repository"
+  },"8": {
+    "doc": "Generic Data Table",
+    "title": "GenericDataTable",
+    "content": "Generic data tables can hold arbitrary tabular data. docs/groovy/basic/generic-data-table-1.groovy . @Grab(group='edu.upenn.pmbb', module='carnival-util', version='0.2.6') import carnival.util.GenericDataTable def mdt = new GenericDataTable( name:\"myMappedDataTable\" ) mdt.dataAdd(ID:'1A', NAME:'alex') mdt.dataAdd(ID:'1A', NAME:'bob') def currentDir = new File(System.getProperty(\"user.dir\")) mdt.writeFiles(currentDir) . | The only required parameter to the GenericDataTable constructor is name. | This will not throw an error. The ID column has no special meaning here. | . ",
+    "url": "/docs/api/data-tables/generic-data-table.html#genericdatatable",
+    "relUrl": "/docs/api/data-tables/generic-data-table.html#genericdatatable"
+  },"9": {
+    "doc": "Generic Data Table",
+    "title": "Generic Data Table",
+    "content": " ",
+    "url": "/docs/api/data-tables/generic-data-table.html",
+    "relUrl": "/docs/api/data-tables/generic-data-table.html"
+  },"10": {
+    "doc": "Home",
+    "title": "Carnival",
+    "content": "Carnival is a data unification technology that enables the aggregation of data from disparate sources into a unified property graph and provides tools to reason over and interact with graph data using bounded operations. Carnival has a robust architecture for tracking the provenance of data and providing evidence chains for conclusions or reasoning made on those data. ",
+    "url": "/#carnival",
+    "relUrl": "/#carnival"
+  },"11": {
+    "doc": "Home",
+    "title": "Key Facts",
+    "content": ". | Powered by Groovy | Vines extract data | Reapers add data to the graph | Reasoners apply logical rules | Algorithms compute and stratify | Sowers export data | . ",
+    "url": "/#key-facts",
+    "relUrl": "/#key-facts"
+  },"12": {
+    "doc": "Home",
+    "title": "Home",
+    "content": " ",
+    "url": "/",
+    "relUrl": "/"
+  },"13": {
+    "doc": "Application Programmer Interface",
+    "title": "Carnival Application Programmer Interface (API)",
+    "content": "Carnival contains a variety of components to aid in data aggregation in a bounded property graph. ",
+    "url": "/docs/api/#carnival-application-programmer-interface-api",
+    "relUrl": "/docs/api/#carnival-application-programmer-interface-api"
+  },"14": {
+    "doc": "Application Programmer Interface",
+    "title": "Utility Classes",
+    "content": "Data Tables . Carnival has two implementations of data tables for tabular data. The MappedDataTable class supports data tables that have a unique primary key. The GenericDataTable class supports tabular that does not have a primary key. ",
+    "url": "/docs/api/#utility-classes",
+    "relUrl": "/docs/api/#utility-classes"
+  },"15": {
+    "doc": "Application Programmer Interface",
+    "title": "Vines",
+    "content": "The term vine applies to classes that read data from source systems such as relational databases or REST APIs. ",
+    "url": "/docs/api/#vines",
+    "relUrl": "/docs/api/#vines"
+  },"16": {
+    "doc": "Application Programmer Interface",
+    "title": "Graph Model",
+    "content": "Carnival provides an interface to define valid patterns of vertices, edges, and properties. ",
+    "url": "/docs/api/#graph-model",
+    "relUrl": "/docs/api/#graph-model"
+  },"17": {
+    "doc": "Application Programmer Interface",
+    "title": "Application Programmer Interface",
+    "content": " ",
+    "url": "/docs/api/",
+    "relUrl": "/docs/api/"
+  },"18": {
+    "doc": "Vines",
+    "title": "Vines",
+    "content": "Vines are data adapters that can be helpful when loading data from source systems. The principal benefit of using Vines to access your source data systems is the Vine caching mechanism. ",
+    "url": "/docs/api/vines/",
+    "relUrl": "/docs/api/vines/"
+  },"19": {
+    "doc": "Graph Model",
+    "title": "Graph Model",
+    "content": "Fundamental to Carnival is the ability to model graph elements. Vertices, edges, and properties can all be modelled. Example: Vertex definition . @VertexDefinition static enum VX { PERSON ( propertyDefs:[ PX.IS_SPECIMEN_DONOR.withConstraints(index:true) ] ) } . | @VertexDefinition tells Carnival that VX is a vertex definition. | There are no rules governing the naming of definition enums. VX, EX, and PX are merely conventions. | The PERSON vertex has a single allowed property, which is not required, nor must it be unique, but is indexed. | . ",
+    "url": "/docs/api/graph-model/",
+    "relUrl": "/docs/api/graph-model/"
+  },"20": {
+    "doc": "Data Tables",
+    "title": "Data Tables",
+    "content": "Carnival contains a DataTable class with two sub-classes, MappedDataTable and GenericDataTable. MappedDataTable is like a database table with a primary key. The value of the primary key field of each row is enforced to be unique within the scope of the data table. GenericDataTable is like a database table with no primary key. For data interchange, it is safer to use MappedDataTable, assuming your data set has a primary key. If there is no primary key, use GenericDataTable. ",
+    "url": "/docs/api/data-tables/",
+    "relUrl": "/docs/api/data-tables/"
+  },"21": {
+    "doc": "Mapped Data Table",
+    "title": "MappedDataTable",
+    "content": "Example: Mapped data table . @Grab(group='edu.upenn.pmbb', module='carnival-util', version='0.2.6') import carnival.util.MappedDataTable def mdt = new MappedDataTable( name:\"myMappedDataTable\", idFieldName:'ID' ) mdt.dataAdd(ID:'1A', NAME:'alex') def currentDir = new File(System.getProperty(\"user.dir\")) mdt.writeFiles(currentDir) . | Use @Grab to incorporate the carnival-util dependency. | All data tables have a name, which will be used to name file representations. | Set the name of the identifier field of this data table to ‘ID’. | Add a record to the data table. | Write the file representation of this data table to the current directory. | . The result of this script will be two files in the current directory: . | myMappedDataTable.yaml: data descriptor | myMappedDataTable.csv: the data in comma separated value format | . As noted above, mapped data tables have a primary key, which is enforced to be unique. Example: Non-unique identifiers . @Grab(group='edu.upenn.pmbb', module='carnival-util', version='0.2.6') import carnival.util.MappedDataTable def mdt = new MappedDataTable( name:\"myMappedDataTable\", idFieldName:'ID' ) mdt.dataAdd(ID:'1A', NAME:'alex') mdt.dataAdd(ID:'1A', NAME:'bob') . This will cause an exception, since the ID ‘1A’ was already added to the data table. ",
+    "url": "/docs/api/data-tables/mapped-data-table.html#mappeddatatable",
+    "relUrl": "/docs/api/data-tables/mapped-data-table.html#mappeddatatable"
+  },"22": {
+    "doc": "Mapped Data Table",
+    "title": "Mapped Data Table",
+    "content": " ",
+    "url": "/docs/api/data-tables/mapped-data-table.html",
+    "relUrl": "/docs/api/data-tables/mapped-data-table.html"
+  },"23": {
+    "doc": "Production Builds",
+    "title": "Production Builds",
+    "content": " ",
+    "url": "/docs/production-buids.html",
+    "relUrl": "/docs/production-buids.html"
+  },"24": {
+    "doc": "Production Builds",
+    "title": "Publishing Production Builds to Github",
+    "content": "Production images are published to Github packages. In order to publish an image, you will need to create a Github personal access token with appropriate permissions to manage github packages (see Github Packages documentation for details). Then create local environment variables GITHUB_USER and GITHUB_TOKEN with your github user and personal access token. Once authorization has been set up, the procedure to publish production builds is: . | Stage and test any changes in the master branch | Update the app version number in app/build.gradle using semantic versioning conventions | Merge changes into the production branch | Build and publish changes to Github with the command gradle publish . The build.grade file has been configured to use the authentication information in the environment variables GITHUB_USER and GITHUB_TOKEN when attempting to publish. | Check that the packages with the updated version number are listed in Carnival Packages | Go back to the master branch, and app/build.gradle increment the version number and add the -SNAPSHOT suffix (i.e. 0.2.9-SNAPSHOT) | . For further details, see Configuring Gradle for use with GitHub Packages. ",
+    "url": "/docs/production-buids.html#publishing-production-builds-to-github",
+    "relUrl": "/docs/production-buids.html#publishing-production-builds-to-github"
+  }
+}
